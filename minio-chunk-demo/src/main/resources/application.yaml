@@ -1,0 +1,46 @@
+server:
+  port: 60000
+spring:
+  main:
+    allow-circular-references: true # 允许循环依赖
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 5MB
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/minio_demo?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 指定数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    # Spring Boot 默认是不注入这些属性值的，需要自己绑定
+    # druid 数据源专有配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: assign_id # 使用雪花算法生成id
+      logic-delete-value: 1 # 逻辑已删除值
+      logic-not-delete-value: 0 # 逻辑未删除值
+  configuration:
+    # 这里我们配置出底层的sql，可以输出sql日志信息，方便我们观察
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+minio:
+  # 指定连接的ip和端口
+  endpoint: http://192.168.65.129:9000
+  # 指定 访问秘钥（也称用户id）
+  accessKey: minioadmin
+  # 指定 私有秘钥（也称密码）
+  secretKey: minioadmin
