@@ -3,3 +3,6 @@ server:
 elasticsearch:
   hostname: 127.0.0.1
   port: 9200
+  blog:
+    index: blog
+    source_fields: id,userId,title,introduce,createTime
