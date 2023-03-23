@@ -1,4 +1,4 @@
-package com.fox.es.entity;
+package com.fox.canal_es.entity;
 
 import lombok.Data;
 

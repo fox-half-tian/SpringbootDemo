@@ -1,0 +1,9 @@
+com\fox\es\controller\TestController.class
+com\fox\es\config\ElasticsearchConfig.class
+com\fox\es\entity\Result.class
+com\fox\es\controller\ShareResourceDocController.class
+com\fox\es\ElasticsearchDemoApplication.class
+com\fox\es\dto\BlogSimpleInfoDTO.class
+com\fox\es\controller\ShareResourceSearchController.class
+com\fox\es\service\impl\ShareResourceSearchServiceImpl.class
+com\fox\es\service\ShareResourceSearchService.class

@@ -1,7 +1,7 @@
-package com.fox.es.controller;
+package com.fox.canal_es.controller;
 
-import com.fox.es.entity.Result;
-import com.fox.es.service.ShareResourceSearchService;
+import com.fox.canal_es.entity.Result;
+import com.fox.canal_es.service.ShareResourceSearchService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

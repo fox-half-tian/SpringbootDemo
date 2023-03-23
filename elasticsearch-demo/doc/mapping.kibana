@@ -1,0 +1,45 @@
+PUT /blog
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "userId": {
+        "type": "long"
+      },
+      "title": {
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "type": "text"
+      },
+      "tags": {
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "type": "text"
+      },
+      "introduce":{
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "type": "text"
+      },
+      "content":{
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "type": "text"
+      },
+      "createTime":{
+        "format": "yyyy-MM-dd HH:mm:ss",
+        "type": "date"
+      },
+      "updateTime":{
+        "format": "yyyy-MM-dd HH:mm:ss",
+        "type": "date"
+      }
+    }
+  }
+}

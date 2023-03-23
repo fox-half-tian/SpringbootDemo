@@ -1,11 +1,10 @@
-package com.fox.es.service.impl;
+package com.fox.canal_es.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.fox.es.dto.BlogSimpleInfoDTO;
-import com.fox.es.entity.Result;
-import com.fox.es.service.ShareResourceSearchService;
+import com.fox.canal_es.entity.Result;
+import com.fox.canal_es.service.ShareResourceSearchService;
+import com.fox.canal_es.dto.BlogSimpleInfoDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
