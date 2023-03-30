@@ -6,7 +6,6 @@
       <list>
         <option value="$PROJECT_DIR$/minio-chunk-demo/pom.xml" />
         <option value="$PROJECT_DIR$/elasticsearch-demo/pom.xml" />
-        <option value="$PROJECT_DIR$/elasticsearch-canal-demo/pom.xml" />
       </list>
     </option>
   </component>
