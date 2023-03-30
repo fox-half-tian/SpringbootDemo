@@ -1,0 +1,13 @@
+server:
+  # 服务端口
+  port: 9999
+elasticsearch:
+  # es访问ip
+  hostname: 127.0.0.1
+  # es访问port
+  port: 9200
+  blog:
+    # 访问索引
+    index: blog
+    # 搜索返回字段
+    source_fields: id,userId,title,introduce,createTime
