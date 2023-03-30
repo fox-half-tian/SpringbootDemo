@@ -22,7 +22,7 @@ public class TestController {
     /**
      * 用于测试是否连接 es 成功
      *
-     * @return 返回 es 的基本信息，等价于访问：http://127.0.0.1:9200
+     * @return 返回 es 的基本信息，等价于访问：http://192.168.65.133:9200
      * @throws IOException 异常信息
      */
     @GetMapping("/getEsInfo")

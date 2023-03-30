@@ -1,0 +1,1 @@
+1. 注意修改application.yml配置文件信息，改为你自己的ip地址

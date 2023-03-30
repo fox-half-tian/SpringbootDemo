@@ -1,11 +1,11 @@
-package com.fox.es.service.impl;
+package com.fox.es_canal.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.fox.es.dto.BlogSimpleInfoDTO;
-import com.fox.es.entity.Result;
-import com.fox.es.service.ShareResourceSearchService;
+import com.alibaba.fastjson.JSONObject;
+import com.fox.es_canal.dto.BlogSimpleInfoDTO;
+import com.fox.es_canal.entity.Result;
+import com.fox.es_canal.service.BlogService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -25,6 +25,8 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +38,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class ShareResourceSearchServiceImpl implements ShareResourceSearchService {
+public class BlogServiceImpl implements BlogService {
     @Resource
     private RestHighLevelClient restHighLevelClient;
     @Value("${elasticsearch.blog.index}")
@@ -59,13 +61,15 @@ public class ShareResourceSearchServiceImpl implements ShareResourceSearchServic
         // 3.关键字
         if (StringUtils.hasText(keyWords)) {
             // 哪些字段匹配关键字
-            MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(keyWords, "title", "tags", "introduce", "content");
+            MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(keyWords, "title", "tags","username","introduce", "content");
             // 设置匹配占比（表示最少匹配的子句个数,例如有五个可选子句,最少的匹配个数为5*70%=3.5.向下取整为3,这就表示五个子句最少要匹配其中三个才能查到）
             multiMatchQueryBuilder.minimumShouldMatch("70%");
             // 提升字段的Boost值
-            multiMatchQueryBuilder.field("title", 10);
-            multiMatchQueryBuilder.field("tags", 7);
-            multiMatchQueryBuilder.field("introduce", 5);
+            multiMatchQueryBuilder.field("title", 15);
+            multiMatchQueryBuilder.field("tags", 10);
+            multiMatchQueryBuilder.field("introduce", 7);
+            multiMatchQueryBuilder.field("content", 3);
+            multiMatchQueryBuilder.field("username", 3);
 
             boolQueryBuilder.must(multiMatchQueryBuilder);
         }
@@ -86,6 +90,7 @@ public class ShareResourceSearchServiceImpl implements ShareResourceSearchServic
         ArrayList<HighlightBuilder.Field> fields = new ArrayList<>();
         fields.add(new HighlightBuilder.Field("title"));
         fields.add(new HighlightBuilder.Field("introduce"));
+        fields.add(new HighlightBuilder.Field("username"));
         highlightBuilder.fields().addAll(fields);
         searchSourceBuilder.highlighter(highlightBuilder);
 
@@ -110,15 +115,23 @@ public class ShareResourceSearchServiceImpl implements ShareResourceSearchServic
 
         for (SearchHit hit : searchHits) {
 
-            String sourceAsString = hit.getSourceAsString();
-            // json 转 对象
-            BlogSimpleInfoDTO blog = JSON.parseObject(sourceAsString, BlogSimpleInfoDTO.class);
+            JSONObject jsonObject = JSONObject.parseObject(hit.getSourceAsString());
+            BlogSimpleInfoDTO blog = new BlogSimpleInfoDTO();
+            blog.setId(Integer.parseInt(hit.getId()));
+            blog.setUsername(jsonObject.getString("username"));
+            blog.setTitle(jsonObject.getString("title"));
+            blog.setUserId(Long.parseLong(jsonObject.getString("userId")));
+            blog.setUserIcon(jsonObject.getString("userIcon"));
+            blog.setIntroduce(jsonObject.getString("introduce"));
+            blog.setCreateTime(LocalDateTime.parse(jsonObject.getString("createTime"), DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+            blog.setUpdateTime(LocalDateTime.parse(jsonObject.getString("updateTime"), DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
             // 取出高亮字段内容
             Map<String, HighlightField> highlightFields = hit.getHighlightFields();
             if (highlightFields != null) {
                 blog.setTitle(parseHighlightStr(blog.getTitle(), highlightFields.get("title")));
                 blog.setIntroduce(parseHighlightStr(blog.getIntroduce(), highlightFields.get("introduce")));
+                blog.setUsername(parseHighlightStr(blog.getUsername(),highlightFields.get("username")));
             }
 
             list.add(blog);

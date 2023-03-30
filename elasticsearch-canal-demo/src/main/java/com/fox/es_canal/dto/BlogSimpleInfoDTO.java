@@ -1,6 +1,5 @@
 package com.fox.es_canal.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +23,14 @@ public class BlogSimpleInfoDTO {
      */
     private Long userId;
     /**
+     * 用户名
+     */
+    private String username;
+    /**
+     * 用户头像
+     */
+    private String userIcon;
+    /**
      * 标题
      */
     private String title;
@@ -35,5 +42,9 @@ public class BlogSimpleInfoDTO {
      * 创建时间
      */
     private LocalDateTime createTime;
+    /**
+     * 修改时间
+     */
+    private LocalDateTime updateTime;
 
 }

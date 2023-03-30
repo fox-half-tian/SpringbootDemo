@@ -7,11 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="minio-chunk-demo" />
+        <module name="elasticsearch-canal-demo" />
         <module name="elasticsearch-demo" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="elasticsearch-canal-demo" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,9 +1,9 @@
-package com.fox.es_canal.service.impl;
+package com.fox.es.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.fox.es_canal.dto.BlogSimpleInfoDTO;
-import com.fox.es_canal.entity.Result;
-import com.fox.es_canal.service.ShareResourceSearchService;
+import com.fox.es.dto.BlogSimpleInfoDTO;
+import com.fox.es.entity.Result;
+import com.fox.es.service.BlogService;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -35,7 +35,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class ShareResourceSearchServiceImpl implements ShareResourceSearchService {
+public class BlogServiceImpl implements BlogService {
     @Resource
     private RestHighLevelClient restHighLevelClient;
     @Value("${elasticsearch.blog.index}")

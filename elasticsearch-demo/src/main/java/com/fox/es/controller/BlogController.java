@@ -1,7 +1,7 @@
 package com.fox.es.controller;
 
 import com.fox.es.entity.Result;
-import com.fox.es.service.ShareResourceSearchService;
+import com.fox.es.service.BlogService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,11 +14,11 @@ import javax.annotation.Resource;
  * @create 2023-03-22 20:16
  */
 @RestController
-@RequestMapping("/search")
-public class ShareResourceSearchController {
+@RequestMapping("/blog")
+public class BlogController {
 
     @Resource
-    private ShareResourceSearchService shareResourceSearchService;
+    private BlogService blogService;
 
     /**
      * 通过关键词获取数据列表
@@ -32,6 +32,6 @@ public class ShareResourceSearchController {
     public Result list(@RequestParam("keyWords") String keyWords,
                        @RequestParam("pageNo") Integer pageNo,
                        @RequestParam("pageSize") Integer pageSize) {
-        return shareResourceSearchService.list(keyWords, pageNo, pageSize);
+        return blogService.list(keyWords, pageNo, pageSize);
     }
 }

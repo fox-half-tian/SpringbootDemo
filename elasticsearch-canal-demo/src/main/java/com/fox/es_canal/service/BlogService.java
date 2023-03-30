@@ -1,12 +1,12 @@
-package com.fox.es.service;
+package com.fox.es_canal.service;
 
-import com.fox.es.entity.Result;
+import com.fox.es_canal.entity.Result;
 
 /**
  * @author 狐狸半面添
  * @create 2023-03-22 20:18
  */
-public interface ShareResourceSearchService {
+public interface BlogService {
 
     /**
      * 通过关键词获取数据列表
