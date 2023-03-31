@@ -31,6 +31,7 @@ public class BlogController {
     @GetMapping("/list")
     public Result list(@RequestParam("keyWords") String keyWords,
                        @RequestParam("pageNo") Integer pageNo) {
+        // BlogConstants是我写的一个常量类，里面定义了一个变量 SEARCH_PAGE_NUM = 15
         return blogService.list(keyWords, pageNo, BlogConstants.SEARCH_PAGE_NUM);
     }
 }

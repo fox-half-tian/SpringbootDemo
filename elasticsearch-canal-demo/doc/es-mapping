@@ -1,4 +1,5 @@
-PUT /blog
+【PUT】 http://192.168.65.133:9200/es_demo_collect
+
 {
   "settings": {
     "number_of_shards": 1,
@@ -6,11 +7,17 @@ PUT /blog
   },
   "mappings": {
     "properties": {
-      "id": {
-        "type": "keyword"
-      },
       "userId": {
         "type": "long"
+      },
+      "username":{
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "type": "text"
+      },
+      "userIcon":{
+        "type": "keyword",
+        "index": false
       },
       "title": {
         "analyzer": "ik_max_word",
@@ -33,11 +40,11 @@ PUT /blog
         "type": "text"
       },
       "createTime":{
-        "format": "yyyy-MM-dd HH:mm:ss",
+        "format": "date_optional_time||epoch_millis",
         "type": "date"
       },
       "updateTime":{
-        "format": "yyyy-MM-dd HH:mm:ss",
+        "format": "date_optional_time||epoch_millis",
         "type": "date"
       }
     }

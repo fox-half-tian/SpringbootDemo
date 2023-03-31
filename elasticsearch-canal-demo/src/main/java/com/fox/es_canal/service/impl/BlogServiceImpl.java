@@ -48,6 +48,10 @@ public class BlogServiceImpl implements BlogService {
 
 
     public Result list(String keyWords, int pageNo, int pageSize) {
+        if (pageNo <= 0) {
+            pageNo = 1;
+        }
+
         // 1.设置索引 - blog
         SearchRequest searchRequest = new SearchRequest(blogIndexStore);
 
@@ -61,7 +65,7 @@ public class BlogServiceImpl implements BlogService {
         // 3.关键字
         if (StringUtils.hasText(keyWords)) {
             // 哪些字段匹配关键字
-            MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(keyWords, "title", "tags","username","introduce", "content");
+            MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(keyWords, "title", "tags", "username", "introduce", "content");
             // 设置匹配占比（表示最少匹配的子句个数,例如有五个可选子句,最少的匹配个数为5*70%=3.5.向下取整为3,这就表示五个子句最少要匹配其中三个才能查到）
             multiMatchQueryBuilder.minimumShouldMatch("70%");
             // 提升字段的Boost值
@@ -131,7 +135,7 @@ public class BlogServiceImpl implements BlogService {
             if (highlightFields != null) {
                 blog.setTitle(parseHighlightStr(blog.getTitle(), highlightFields.get("title")));
                 blog.setIntroduce(parseHighlightStr(blog.getIntroduce(), highlightFields.get("introduce")));
-                blog.setUsername(parseHighlightStr(blog.getUsername(),highlightFields.get("username")));
+                blog.setUsername(parseHighlightStr(blog.getUsername(), highlightFields.get("username")));
             }
 
             list.add(blog);
