@@ -1,0 +1,33 @@
+server:
+  port: 10505
+spring:
+  redis:
+    host: 8.130.97.145
+    port: 6379
+    password: 123456
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 1
+        time-between-eviction-runs: 10s
+    database: 0
+sms:
+  ali:
+    # 子用户的访问键
+    accessKeyId: LTAI5tPBmf8y7ZoQSn9hU6Hy
+    # 子用户的访问密钥
+    accessKeySecret: cbd511ed24bd832d05af54f63c84e52d
+    # 签名的内容
+    signName: 逐浪教育
+    # 登录短信模板的id
+    loginTemplateCode: SMS_275395309
+  tx:
+    # 应用的AppID
+    appId: 1400791280
+    # 应用的App Key
+    appKey: cbd511ed24bd832d05af54f63c84e52d
+    # 签名的内容
+    signContent: 狐狸半面添公众号
+    # 登录&注册短信模板的id
+    loginTemplateId: 1671035

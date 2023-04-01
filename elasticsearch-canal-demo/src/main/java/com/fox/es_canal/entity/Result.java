@@ -37,7 +37,7 @@ public class Result {
         return new Result(500, msg);
     }
 
-    public Result error(Integer code, String msg) {
+    public static Result error(Integer code, String msg) {
         return new Result(code, msg);
     }
 

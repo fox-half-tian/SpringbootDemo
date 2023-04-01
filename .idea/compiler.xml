@@ -7,8 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="minio-chunk-demo" />
-        <module name="elasticsearch-canal-demo" />
         <module name="elasticsearch-demo" />
+        <module name="sms-demo" />
+        <module name="elasticsearch-canal-demo" />
       </profile>
     </annotationProcessing>
   </component>

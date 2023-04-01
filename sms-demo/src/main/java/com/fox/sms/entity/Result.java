@@ -1,4 +1,4 @@
-package com.fox.es.entity;
+package com.fox.sms.entity;
 
 import lombok.Data;
 
@@ -39,6 +39,10 @@ public class Result {
 
     public static Result error(Integer code, String msg) {
         return new Result(code, msg);
+    }
+
+    public static Result error(){
+        return new Result(500,"服务器异常");
     }
 
 }
