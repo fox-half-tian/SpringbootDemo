@@ -19,7 +19,6 @@ import static com.fox.miniodemo.constant.HttpStatus.HTTP_OK;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Result implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -48,6 +47,7 @@ public class Result implements Serializable {
         this.data = data;
 
     }
+    private Result(){}
 
     public static Result ok() {
         return new Result(HTTP_OK.getCode(), HTTP_OK.getValue());

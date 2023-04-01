@@ -48,17 +48,15 @@ public class SmsAliServiceImpl implements SmsAliService {
         redisCacheUtils.setCacheObject(key,code+",0",RedisConstants.LOGIN_USER_CODE_TTL);
 
         // 6.发送短信验证到手机
-        aliSmsTemplateUtils.sendLoginCode(phone, code);
+        boolean success = aliSmsTemplateUtils.sendLoginCode(phone, code);
 
-        // 默认为 true
-        boolean result = true;
-        if(!result){
-            // 6.1 发送失败，则移除 redis 中的验证码缓存信息，并返回
-            redisCacheUtils.deleteObject(key + phone);
+        // 7.返回
+        if (success){
+            return Result.ok();
+        }else{
+            // 移除redis中的缓存记录
+            redisCacheUtils.deleteObject(RedisConstants.LOGIN_USER_CODE_KEY + phone);
             return Result.error();
         }
-
-        // 6.2 发送成功
-        return Result.ok();
     }
 }

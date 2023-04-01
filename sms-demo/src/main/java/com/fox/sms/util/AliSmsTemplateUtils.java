@@ -6,7 +6,7 @@ import com.aliyun.auth.credentials.provider.StaticCredentialProvider;
 import com.aliyun.sdk.service.dysmsapi20170525.AsyncClient;
 import com.aliyun.sdk.service.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.sdk.service.dysmsapi20170525.models.SendSmsResponse;
-import com.google.gson.Gson;
+import com.aliyun.sdk.service.dysmsapi20170525.models.SendSmsResponseBody;
 import darabonba.core.client.ClientOverrideConfiguration;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +28,7 @@ import java.util.concurrent.CompletableFuture;
 @AllArgsConstructor
 @Slf4j
 public class AliSmsTemplateUtils {
+
     /**
      * 子用户的访问键
      */
@@ -37,20 +38,23 @@ public class AliSmsTemplateUtils {
      */
     private String accessKeySecret;
     /**
-     * 签名的内容
+     * 签名名称
      */
     private String signName;
     /**
-     * 登录短信模板的id
+     * 登录短信模板的code
      */
     private String loginTemplateCode;
+
+
 
     /**
      * 发送登录验证码
      *
      * @param phone 手机号
+     * @return true-发送成功，false-发送失败
      */
-    public void sendLoginCode(String phone, String code){
+    public boolean sendLoginCode(String phone, String code){
         // 配置凭据身份验证信息，包括 accessKeyId 与 accessKeySecret
         StaticCredentialProvider provider = StaticCredentialProvider.create(Credential.builder()
                 .accessKeyId(accessKeyId)
@@ -81,19 +85,46 @@ public class AliSmsTemplateUtils {
                 .templateParam(JSONUtil.toJsonStr(contentParam))
                 .build();
 
-        // 异步获取API请求的返回值
-        CompletableFuture<SendSmsResponse> response = client.sendSms(sendSmsRequest);
+        CompletableFuture<SendSmsResponse> response = null;
+
+        try {
+            // 异步获取API请求的返回值
+            response = client.sendSms(sendSmsRequest);
+
+            // 同步获取API请求的返回值
+            SendSmsResponseBody body = response.get().getBody();
+            // 判断是否发送成功
+            if ("OK".equalsIgnoreCase(body.getCode())){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            // 日志记录
+            log.error("发送登录短信验证码发生异常：{}",e.getMessage());
+            // 存入 mysql
+            return false;
+        } finally {
+            // 关闭客户端
+            client.close();
+        }
 
         // 异步处理返回值
-        response.thenAccept(resp -> {
-            System.out.println(new Gson().toJson(resp));
-        }).exceptionally(throwable -> {
-            // 处理异常
-            log.error("发送登录短信验证码发生异常：{}",throwable.getMessage());
-            return null;
-        });
+//        response.thenAccept(resp -> {
+//            JSONObject respInfo = JSONUtil.parseObj(resp.getBody());
+//            if (!"OK".equals(respInfo.getStr("code"))){
+//                // 说明发送失败
+//                log.error("发送登录短信验证码发生异常：状态码-{}，状态描述-{}",respInfo.getStr("code"),respInfo.getStr("message"));
+//                // 存入 mysql
+//            }
+//            System.out.println();
+//        }).exceptionally(throwable -> {
+//            // 1.处理异常，日志记录
+//            log.error("发送登录短信验证码发生异常：{}",throwable.getMessage());
+//            // 2.存入 mysql
+//            return null;
+//        });
+        // 6.1 发送失败，则移除 redis 中的验证码缓存信息，并返回
 
-        // 关闭客户端
-        client.close();
     }
 }

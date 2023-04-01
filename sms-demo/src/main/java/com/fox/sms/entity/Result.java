@@ -1,6 +1,8 @@
 package com.fox.sms.entity;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 统一返回对象
@@ -8,7 +10,9 @@ import lombok.Data;
  * @author 狐狸半面添
  * @create 2023-03-22 18:34
  */
-@Data
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Result {
     private Integer code;
     private String msg;
@@ -24,6 +28,8 @@ public class Result {
         this.code = code;
         this.msg = msg;
     }
+
+    private Result(){}
 
     public static Result ok() {
         return new Result(200, "success");
