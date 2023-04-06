@@ -1,7 +1,8 @@
 package com.fox.cqhttp.plugin;
 
-import cn.hutool.core.util.StrUtil;
+import com.fox.cqhttp.handle.ReceiveTypeHandler;
 import com.fox.cqhttp.service.TxAnswerService;
+import com.fox.cqhttp.util.ReceiveTypeUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.lz1998.pbbot.bot.Bot;
 import net.lz1998.pbbot.bot.BotPlugin;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static com.fox.cqhttp.util.ReceiveTypeUtils.RECEIVE_TYPE_MAP;
 import static com.fox.cqhttp.constant.ReplyConstants.*;
 
 /**
@@ -37,8 +39,6 @@ public class ChatPlugin extends BotPlugin {
     public int onGroupMessage(@NotNull Bot bot, @NotNull OnebotEvent.GroupMessageEvent event) {
         // 群号
         long groupId = event.getGroupId();
-        // 接收内容
-        String text = event.getRawMessage();
         // 获取消息的所有类型
         List<OnebotBase.Message> messageList = event.getMessageList();
         boolean notHandle = true;
@@ -62,11 +62,13 @@ public class ChatPlugin extends BotPlugin {
             return MESSAGE_BLOCK;
         }
 
-        // 如果是空白字符
-        if (StrUtil.isBlank(str.toString())) {
-            bot.sendGroupMsg(groupId, ANSWER_BLANK_QUESTION, false);
+        // 对接收的类型进行处理
+        ReceiveTypeHandler receiveTypeHandler = ReceiveTypeUtils.get(str.toString());
+        if (receiveTypeHandler!=null){
+            receiveTypeHandler.handle(bot,event);
             return MESSAGE_BLOCK;
         }
+
         // 回复，内容由 腾讯云tbp 处理
         bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(txAnswerService.getResponse(str.toString())), false);
         // 当存在多个plugin时，不执行下一个plugin
