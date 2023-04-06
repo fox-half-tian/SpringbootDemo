@@ -16,7 +16,8 @@ public class ReceiveTypeUtils {
         RECEIVE_TYPE_MAP.put("课表",new LessonTableHandler());
         RECEIVE_TYPE_MAP.put("",new ReceiveBlankHandler());
         RECEIVE_TYPE_MAP.put("我的头像",new MyIconHandler());
-        RECEIVE_TYPE_MAP.put("浪浪语录",new MyLangTalkHandler());
+        RECEIVE_TYPE_MAP.put("浪浪语录",new LangTalkHandler());
+        RECEIVE_TYPE_MAP.put("蓄蓄语录",new XuTalkHandler());
         RECEIVE_TYPE_MAP.put("我的信息",new MyInfoHandler());
     }
     public static ReceiveTypeHandler get(String content){
