@@ -1,10 +1,7 @@
 package com.fox.cqhttp.util;
 
 import cn.hutool.core.util.StrUtil;
-import com.fox.cqhttp.handle.LessonTableHandler;
-import com.fox.cqhttp.handle.MyIconHandler;
-import com.fox.cqhttp.handle.ReceiveBlankHandler;
-import com.fox.cqhttp.handle.ReceiveTypeHandler;
+import com.fox.cqhttp.handle.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +16,8 @@ public class ReceiveTypeUtils {
         RECEIVE_TYPE_MAP.put("课表",new LessonTableHandler());
         RECEIVE_TYPE_MAP.put("",new ReceiveBlankHandler());
         RECEIVE_TYPE_MAP.put("我的头像",new MyIconHandler());
+        RECEIVE_TYPE_MAP.put("浪浪语录",new MyLangTalkHandler());
+        RECEIVE_TYPE_MAP.put("我的信息",new MyInfoHandler());
     }
     public static ReceiveTypeHandler get(String content){
         return RECEIVE_TYPE_MAP.get(StrUtil.removeAll(content,' '));
