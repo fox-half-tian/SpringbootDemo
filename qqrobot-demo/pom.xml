@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.fox</groupId>
+    <artifactId>qqrobot-demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+        </dependency>
+        <!--fastjson依赖-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>2.0.25</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.15</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java-tbp</artifactId>
+            <version>3.1.322</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.6.3</version>
+            <!--作用范围只在测试代码生效-->
+            <scope>test</scope>
+        </dependency>
+        <!--java机器人框架-->
+        <!--<dependency>-->
+        <!--    <groupId>love.forte.simple-robot</groupId>-->
+        <!--    <artifactId>component-mirai-spring-boot-starter</artifactId>-->
+        <!--    <version>2.0.3</version>-->
+        <!--</dependency>-->
+
+        <!--使用mirai组件开发QQ机器人-->
+        <dependency>
+            <groupId>love.forte.simple-robot</groupId>
+            <artifactId>component-mirai-spring-boot-starter</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <!-- httpclient用来请求自动回复API -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--    <groupId>love.forte.simbot.boot</groupId>-->
+        <!--    <artifactId>simboot-core-spring-boot-starter</artifactId>-->
+        <!--    <version>3.0.0-RC.3</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+        <!--    <groupId>love.forte.simbot.component</groupId>-->
+        <!--    <artifactId>simbot-component-mirai-core</artifactId>-->
+        <!--    <version>3.0.0.0-beta.6</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash;阿里云 sms sdk 依赖&ndash;&gt;-->
+        <!--<dependency>-->
+        <!--    <groupId>com.aliyun</groupId>-->
+        <!--    <artifactId>alibabacloud-dysmsapi20170525</artifactId>-->
+        <!--    <version>2.0.23</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash;redis依赖&ndash;&gt;-->
+        <!--<dependency>-->
+        <!--    <groupId>org.springframework.boot</groupId>-->
+        <!--    <artifactId>spring-boot-starter-data-redis</artifactId>-->
+        <!--    <version>2.6.3</version>-->
+        <!--</dependency>-->
+    </dependencies>
+</project>
