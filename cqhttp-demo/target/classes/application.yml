@@ -1,0 +1,20 @@
+spring:
+  bot:
+    plugin-list: # 配置插件列表（有序），如果插件返回0，继续执行剩余插件，如果插件返回1，终止剩余插件执行
+      - com.fox.cqhttp.plugin.LogPlugin # 日志插件
+#      - com.fox.cqhttp.plugin.DemoPlugin # 测试插件
+#      - com.fox.cqhttp.plugin.ImagePlugin # 动态生成图片插件
+      - com.fox.cqhttp.plugin.ChatPlugin # 测试插件
+tbp:
+  # 腾讯云账户 secretId
+  secretId: AKIDE3nKrGYnsofN9ufIjw78u2CD2c6WjjTe
+  # 腾讯云账户 secretKey
+  secretKey: HMBlFYmngswqZSOD1nMlxvpZ7TdbXJuG
+  # 域名接入，就近地域接入域名为 tbp.tencentcloudapi.com，推荐使用就近地域接入域名。根据调用接口时客户端所在位置，会自动解析到最近的某个具体地域的服务器。
+  endpoint: tbp.tencentcloudapi.com
+  # 机器人标识，用于定义抽象机器人。
+  botId: fc9424d7-1555-49fb-b072-df47e97bc7c4
+  # 机器人版本，取值 "dev"调试版本 或 "release"线上版本
+  botEnv: release
+server:
+  port: 8081

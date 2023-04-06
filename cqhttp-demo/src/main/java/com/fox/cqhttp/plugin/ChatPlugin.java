@@ -14,8 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.List;
 
-import static com.fox.cqhttp.constant.ReplyConstants.ANSWER_BLANK_QUESTION;
-import static com.fox.cqhttp.constant.ReplyConstants.GROUP_BAN_TIP;
+import static com.fox.cqhttp.constant.ReplyConstants.*;
 
 /**
  * @author 狐狸半面添
@@ -83,7 +82,23 @@ public class ChatPlugin extends BotPlugin {
      */
     @Override
     public int onGroupBanNotice(@NotNull Bot bot, @NotNull OnebotEvent.GroupBanNoticeEvent event) {
-        bot.sendGroupMsg(event.getGroupId(),GROUP_BAN_TIP,false);
+        // 有禁言消息的处理
+        if ("ban".equals(event.getSubType())){
+            if (event.getUserId()==0){
+                // 对全体禁言的处理
+                bot.sendGroupMsg(event.getGroupId(), GROUP_BAN_ALL_TIP,false);
+            }else {
+                // 对个人禁言的处理
+            }
+        }else{
+            // 对 解禁消息的处理
+            if (event.getUserId()==0){
+                // 对全体解禁做处理
+                bot.sendGroupMsg(event.getGroupId(),GROUP_LIFT_BAN_ALL_TIP,false);
+            }else {
+                // 对个人解禁的处理
+            }
+        }
         return MESSAGE_BLOCK;
     }
 
