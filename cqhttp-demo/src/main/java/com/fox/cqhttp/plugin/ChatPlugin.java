@@ -1,6 +1,7 @@
 package com.fox.cqhttp.plugin;
 
 import com.fox.cqhttp.handle.ReceiveTypeHandler;
+import com.fox.cqhttp.service.GptService;
 import com.fox.cqhttp.service.TxAnswerService;
 import com.fox.cqhttp.util.ReceiveTypeUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,8 @@ import static com.fox.cqhttp.constant.ReplyConstants.*;
 public class ChatPlugin extends BotPlugin {
     @Resource
     private TxAnswerService txAnswerService;
+    @Resource
+    private GptService gptService;
 
     /**
      * 收到群消息时调用此方法
@@ -68,10 +71,15 @@ public class ChatPlugin extends BotPlugin {
             receiveTypeHandler.handle(bot,event);
             return MESSAGE_BLOCK;
         }
+        if (" 问浪 ".equals(str.substring(0,4))){
+            String response = gptService.getResponse(str.substring(4,str.length()));
+            bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(response), false);
 
-        // 回复，内容由 腾讯云tbp 处理
-        bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(txAnswerService.getResponse(str.toString())), false);
-        // 当存在多个plugin时，不执行下一个plugin
+        }else {
+            // 回复，内容由 腾讯云tbp 处理
+            bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(txAnswerService.getResponse(str.toString())), false);
+            // 当存在多个plugin时，不执行下一个plugin
+        }
         return MESSAGE_BLOCK;
     }
 

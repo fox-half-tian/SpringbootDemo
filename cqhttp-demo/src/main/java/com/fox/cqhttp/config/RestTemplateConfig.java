@@ -1,14 +1,23 @@
 package com.fox.cqhttp.config;
 
 import com.fox.cqhttp.interceptor.HeaderRequestInterceptor;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.SSLContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,18 +36,27 @@ public class RestTemplateConfig {
      * @return 实例对象
      */
     @Bean
-    public RestTemplate getRestTemplate(){
-        SimpleClientHttpRequestFactory  factory = new SimpleClientHttpRequestFactory();
+    public RestTemplate getRestTemplate() throws Exception{
+//        SimpleClientHttpRequestFactory  factory = new SimpleClientHttpRequestFactory();
         //设置连接超时
-        factory.setConnectTimeout(15000);
-        factory.setReadTimeout(5000);
+        TrustStrategy acceptingTrustStrategy = ((x509Certificates, authType) -> true);
+        SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+        SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
+
+        HttpClientBuilder httpClientBuilder = HttpClients.custom();
+        httpClientBuilder.setSSLSocketFactory(connectionSocketFactory);
+        CloseableHttpClient httpClient = httpClientBuilder.build();
+        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+        factory.setHttpClient(httpClient);
+        factory.setConnectTimeout(25000);
+        factory.setReadTimeout(25000);
 
         RestTemplate restTemplate = new RestTemplate(factory);
 
         // 设置默认请求头
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
         interceptors.add(new HeaderRequestInterceptor(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE));
-        interceptors.add(new HeaderRequestInterceptor(HttpHeaders.ACCEPT,MediaType.APPLICATION_JSON_VALUE));
+        interceptors.add(new HeaderRequestInterceptor(HttpHeaders.ACCEPT,MediaType.ALL_VALUE));
         restTemplate.setInterceptors(interceptors);
         return new RestTemplate(factory);
     }
