@@ -1,5 +1,6 @@
 package com.fox.cqhttp.plugin;
 
+import cn.hutool.core.util.StrUtil;
 import com.fox.cqhttp.handle.ReceiveTypeHandler;
 import com.fox.cqhttp.service.GptService;
 import com.fox.cqhttp.service.TxAnswerService;
@@ -71,7 +72,7 @@ public class ChatPlugin extends BotPlugin {
         // 对接收的类型进行处理
         ReceiveTypeHandler receiveTypeHandler = ReceiveTypeUtils.get(str.toString());
         if (receiveTypeHandler != null) {
-            receiveTypeHandler.handle(bot, event);
+            receiveTypeHandler.handleGroup(bot, event);
             return MESSAGE_BLOCK;
         }
 
@@ -80,6 +81,9 @@ public class ChatPlugin extends BotPlugin {
             String question = str.substring(4, str.length());
             if (StringUtils.hasText(question)) {
                 String response = gptService.getResponse(question);
+                if (response.length() > 6 && "很抱歉地告诉您".equals(response.substring(0, 7))) {
+                    bot.sendPrivateMsg(event.getUserId(), Msg.builder().at(event.getUserId()).text("可以再问一次小浪吗，我刚刚走神了").face(9), false);
+                }
                 bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(response), false);
             } else {
                 bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text("你想问小浪什么呢").face(20), false);
@@ -107,7 +111,7 @@ public class ChatPlugin extends BotPlugin {
 //            }
 //
 //        }
-       else {
+        else {
             // 回复，内容由 腾讯云tbp 处理
             bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(txAnswerService.getResponse(str.toString())), false);
             // 当存在多个plugin时，不执行下一个plugin
@@ -160,5 +164,43 @@ public class ChatPlugin extends BotPlugin {
                 .text("欢迎你加入这颗小小的逐浪星球，我是小浪，有事可以艾特我哦")
                 .face(18).image("https://sangxin-tian.oss-cn-nanjing.aliyuncs.com/qq-robot/future.jpg"), false);
         return MESSAGE_BLOCK;
+    }
+
+    @Override
+    public int onPrivateMessage(@NotNull Bot bot, @NotNull OnebotEvent.PrivateMessageEvent event) {
+        List<OnebotBase.Message> messageList = event.getMessageList();
+        String str = "";
+        for (OnebotBase.Message message : messageList) {
+            if ("text".equals(message.getType())) {
+                str = str + message.getDataOrThrow("text") + " ";
+            }
+        }
+        // 对接收的类型进行处理
+        ReceiveTypeHandler receiveTypeHandler = ReceiveTypeUtils.get(str);
+        if (receiveTypeHandler != null) {
+            receiveTypeHandler.handlePrivate(bot, event);
+            return MESSAGE_BLOCK;
+        }
+
+        if (str.length() > 2 && "问浪".equals(str.substring(0, 2).trim())) {
+            // 判断问题是否为有效字符
+            String question = str.substring(2);
+            if (StringUtils.hasText(question)) {
+                String response = gptService.getResponse(question);
+                if (response.length() > 6 && "很抱歉地告诉您".equals(response.substring(0, 7))) {
+                    bot.sendPrivateMsg(event.getUserId(), Msg.builder().text("可以再问一次小浪吗，我刚刚走神了").face(9), false);
+                } else {
+                    bot.sendPrivateMsg(event.getUserId(), Msg.builder().text(response), false);
+                }
+            } else {
+                bot.sendPrivateMsg(event.getUserId(), Msg.builder().text("你想和小浪说些什么呢").face(20), false);
+            }
+        } else {
+            // 回复，内容由 腾讯云tbp 处理
+            bot.sendPrivateMsg(event.getUserId(), Msg.builder().text(txAnswerService.getResponse(str)), false);
+            // 当存在多个plugin时，不执行下一个plugin
+        }
+        return MESSAGE_BLOCK;
+
     }
 }

@@ -2,9 +2,6 @@ package com.fox.cqhttp.handle;
 
 import net.lz1998.pbbot.bot.Bot;
 import onebot.OnebotEvent;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
 
 /**
  * @author 狐狸半面添
@@ -12,10 +9,18 @@ import java.util.Map;
  */
 public interface ReceiveTypeHandler {
     /**
-     * 处理
+     * 处理群聊
      *
      * @param bot 机器人
      * @param event 事件
      */
-    void handle(Bot bot, OnebotEvent.GroupMessageEvent event);
+    void handleGroup(Bot bot, OnebotEvent.GroupMessageEvent event);
+
+    /**
+     * 处理私聊
+     *
+     * @param bot 机器人
+     * @param event 事件
+     */
+    void handlePrivate(Bot bot, OnebotEvent.PrivateMessageEvent event);
 }

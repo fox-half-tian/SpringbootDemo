@@ -20,7 +20,7 @@ public class XuTalkHandler implements ReceiveTypeHandler{
     private final RestTemplate restTemplate = SpringUtil.getBean(RestTemplate.class);;
 
     @Override
-    public void handle(Bot bot, OnebotEvent.GroupMessageEvent event) {
+    public void handleGroup(Bot bot, OnebotEvent.GroupMessageEvent event) {
         OnebotEvent.GroupMessageEvent.Sender sender = event.getSender();
         // 获取随机一言
         ResponseEntity<String> forEntity = restTemplate.getForEntity("https://www.youwk.cn/api/yan?key=yvyRGvZr3QUFEIb3gGkKxf0CEev3AI",String.class);
@@ -30,8 +30,24 @@ public class XuTalkHandler implements ReceiveTypeHandler{
             bot.sendGroupMsg(event.getGroupId(), Msg.builder().at(event.getUserId()).text("蓄蓄曾说：\"").text(data.substring(0,data.length()-1)).text("\"").face(62), false);
         }else{
             log.error("调用社会语录接口错误：{}",queryInfo.getStr("msg"));
-            String info = "\n很抱歉，我好像出了点小问题，暂时无法与你分析有关于蓄蓄";
+            String info = "很抱歉，我好像出了点小问题，暂时无法与你分析有关于蓄蓄";
             bot.sendGroupMsg(event.getGroupId(), Msg.builder().at(event.getUserId()).text(info).face(62), false);
+        }
+    }
+
+    @Override
+    public void handlePrivate(Bot bot, OnebotEvent.PrivateMessageEvent event) {
+        OnebotEvent.PrivateMessageEvent.Sender sender = event.getSender();
+        // 获取随机一言
+        ResponseEntity<String> forEntity = restTemplate.getForEntity("https://www.youwk.cn/api/yan?key=yvyRGvZr3QUFEIb3gGkKxf0CEev3AI",String.class);
+        JSONObject queryInfo = JSONUtil.parseObj(forEntity.getBody());
+        if ("0".equals(queryInfo.getStr("code"))) {
+            String data = queryInfo.getStr("data");
+            bot.sendPrivateMsg(event.getUserId(), Msg.builder().text("蓄蓄曾说：\"").text(data.substring(0,data.length()-1)).text("\"").face(62), false);
+        }else{
+            log.error("调用社会语录接口错误：{}",queryInfo.getStr("msg"));
+            String info = "很抱歉，我好像出了点小问题，暂时无法与你分析有关于蓄蓄";
+            bot.sendPrivateMsg(event.getUserId(), Msg.builder().text(info).face(62), false);
         }
     }
 }

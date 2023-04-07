@@ -12,11 +12,15 @@ import static com.fox.cqhttp.constant.ReplyConstants.ANSWER_BLANK_QUESTION;
  */
 public class ReceiveBlankHandler implements ReceiveTypeHandler {
     @Override
-    public void handle(Bot bot, OnebotEvent.GroupMessageEvent event) {
+    public void handleGroup(Bot bot, OnebotEvent.GroupMessageEvent event) {
         bot.sendGroupMsg(event.getGroupId(), Msg.builder()
                 .at(event.getUserId())
                 .face(9)
                 .text("你艾特我，却又不对我说什么，是为什么呢？是不喜欢小浪吗？")
                 .face(67), false);
+    }
+    @Override
+    public void handlePrivate(Bot bot, OnebotEvent.PrivateMessageEvent event) {
+
     }
 }
