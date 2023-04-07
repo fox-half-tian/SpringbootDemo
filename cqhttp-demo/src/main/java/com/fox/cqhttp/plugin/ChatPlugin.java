@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.List;
 
-import static com.fox.cqhttp.util.ReceiveTypeUtils.RECEIVE_TYPE_MAP;
 import static com.fox.cqhttp.constant.ReplyConstants.*;
 
 /**
@@ -112,4 +111,21 @@ public class ChatPlugin extends BotPlugin {
         return MESSAGE_BLOCK;
     }
 
+
+    /**
+     * 群人数增加时调用此方法
+     *
+     * @param bot 机器人
+     * @param event 事件
+     * @return 是否继续下一个插件
+     */
+    @Override
+    public int onGroupIncreaseNotice(@NotNull Bot bot, @NotNull OnebotEvent.GroupIncreaseNoticeEvent event) {
+
+        bot.sendGroupMsg(event.getGroupId(),Msg.builder()
+                .at(event.getUserId())
+                .text("欢迎你加入这颗小小的逐浪星球，我是小浪，有事可以艾特我哦")
+                .face(18).image("https://sangxin-tian.oss-cn-nanjing.aliyuncs.com/qq-robot/future.jpg"),false);
+        return MESSAGE_BLOCK;
+    }
 }

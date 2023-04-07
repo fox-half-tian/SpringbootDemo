@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.ResponseExtractor;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -45,7 +46,12 @@ public class GptService {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM));
         HttpEntity<JSONObject> entity = new HttpEntity<>(new com.alibaba.fastjson.JSONObject(map), headers);
-        byte[] result = restTemplate.postForObject("https://cbjtestapi.binjie.site:7777/api/generateStream", entity, byte[].class);
+        byte[] result;
+        try {
+            result = restTemplate.postForObject("https://cbjtestapi.binjie.site:7777/api/generateStream", entity, byte[].class);
+        } catch (RestClientException e) {
+            return "\n很抱歉，小浪好像出了点小问题。";
+        }
         if (result == null) {
             return "\n很抱歉，小浪好像出了点小问题。";
         } else {
