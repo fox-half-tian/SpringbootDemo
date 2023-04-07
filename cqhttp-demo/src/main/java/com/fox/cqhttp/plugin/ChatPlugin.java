@@ -12,6 +12,7 @@ import onebot.OnebotBase;
 import onebot.OnebotEvent;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ChatPlugin extends BotPlugin {
     /**
      * 收到群消息时调用此方法
      *
-     * @param bot 机器人
+     * @param bot   机器人
      * @param event 事件
      * @return 是否继续下一个插件
      */
@@ -53,9 +54,12 @@ public class ChatPlugin extends BotPlugin {
                 str = new StringBuilder();
                 for (OnebotBase.Message againMsg : messageList) {
                     if ("text".equals(againMsg.getType())) {
-                        str.append(againMsg.getDataOrThrow("text")).append(" ");
+                        String text = againMsg.getDataOrThrow("text");
+//                        if (text.contains())
+                        str.append(againMsg.getDataOrThrow(text)).append(" ");
                     }
                 }
+                break;
             }
         }
 
@@ -66,15 +70,44 @@ public class ChatPlugin extends BotPlugin {
 
         // 对接收的类型进行处理
         ReceiveTypeHandler receiveTypeHandler = ReceiveTypeUtils.get(str.toString());
-        if (receiveTypeHandler!=null){
-            receiveTypeHandler.handle(bot,event);
+        if (receiveTypeHandler != null) {
+            receiveTypeHandler.handle(bot, event);
             return MESSAGE_BLOCK;
         }
-        if (" 问浪 ".equals(str.substring(0,4))){
-            String response = gptService.getResponse(str.substring(4,str.length()));
-            bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(response), false);
 
-        }else {
+        if (str.length() > 3 && "问浪".equals(str.substring(0, 4).trim())) {
+            // 判断问题是否为有效字符
+            String question = str.substring(4, str.length());
+            if (StringUtils.hasText(question)) {
+                String response = gptService.getResponse(question);
+                bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(response), false);
+            } else {
+                bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text("你想问小浪什么呢").face(20), false);
+            }
+        }
+//        else if (str.length() > 4 && " 授予头衔".equals(str.substring(0, 5))) {
+//            String role = event.getSender().getRole();
+//            System.out.println(role);
+//            // 授予头衔
+//            String[] split = str.toString().trim().split("[\"“”]");
+//            if (split.length != 3) {
+//                // 回复，内容由 腾讯云tbp 处理
+//                bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(txAnswerService.getResponse(str.toString())), false);
+//            } else {
+//                String rank = split[1];
+//                for (OnebotBase.Message message : messageList) {
+//                    if ("at".equals(message.getType())) {
+//                        long qq = Long.parseLong(message.getDataOrThrow("qq"));
+//                        if (bot.getSelfId() != qq) {
+//                            bot.setGroupSpecialTitle(event.getGroupId(), qq, split[1], -1L);
+//                            bot.sendGroupMsg(event.getGroupId(), Msg.builder().at(qq).text("你被赋予了头衔—“" + split[1] + "”").face(180), false);
+//                        }
+//                    }
+//                }
+//            }
+//
+//        }
+       else {
             // 回复，内容由 腾讯云tbp 处理
             bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(txAnswerService.getResponse(str.toString())), false);
             // 当存在多个plugin时，不执行下一个plugin
@@ -85,26 +118,26 @@ public class ChatPlugin extends BotPlugin {
     /**
      * 群禁言时调用此方法
      *
-     * @param bot 机器人
+     * @param bot   机器人
      * @param event 事件
      * @return 是否继续下一个插件
      */
     @Override
     public int onGroupBanNotice(@NotNull Bot bot, @NotNull OnebotEvent.GroupBanNoticeEvent event) {
         // 有禁言消息的处理
-        if ("ban".equals(event.getSubType())){
-            if (event.getUserId()==0){
+        if ("ban".equals(event.getSubType())) {
+            if (event.getUserId() == 0) {
                 // 对全体禁言的处理
-                bot.sendGroupMsg(event.getGroupId(), GROUP_BAN_ALL_TIP,false);
-            }else {
+                bot.sendGroupMsg(event.getGroupId(), GROUP_BAN_ALL_TIP, false);
+            } else {
                 // 对个人禁言的处理
             }
-        }else{
+        } else {
             // 对 解禁消息的处理
-            if (event.getUserId()==0){
+            if (event.getUserId() == 0) {
                 // 对全体解禁做处理
-                bot.sendGroupMsg(event.getGroupId(),GROUP_LIFT_BAN_ALL_TIP,false);
-            }else {
+                bot.sendGroupMsg(event.getGroupId(), GROUP_LIFT_BAN_ALL_TIP, false);
+            } else {
                 // 对个人解禁的处理
             }
         }
@@ -115,17 +148,17 @@ public class ChatPlugin extends BotPlugin {
     /**
      * 群人数增加时调用此方法
      *
-     * @param bot 机器人
+     * @param bot   机器人
      * @param event 事件
      * @return 是否继续下一个插件
      */
     @Override
     public int onGroupIncreaseNotice(@NotNull Bot bot, @NotNull OnebotEvent.GroupIncreaseNoticeEvent event) {
 
-        bot.sendGroupMsg(event.getGroupId(),Msg.builder()
+        bot.sendGroupMsg(event.getGroupId(), Msg.builder()
                 .at(event.getUserId())
                 .text("欢迎你加入这颗小小的逐浪星球，我是小浪，有事可以艾特我哦")
-                .face(18).image("https://sangxin-tian.oss-cn-nanjing.aliyuncs.com/qq-robot/future.jpg"),false);
+                .face(18).image("https://sangxin-tian.oss-cn-nanjing.aliyuncs.com/qq-robot/future.jpg"), false);
         return MESSAGE_BLOCK;
     }
 }

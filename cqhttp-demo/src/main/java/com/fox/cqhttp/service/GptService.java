@@ -32,7 +32,7 @@ public class GptService {
     public String getResponse(String inputText) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("prompt", inputText);
-        if (count <= 12) {
+        if (count <= 10) {
             count++;
         } else {
             count = 0;
@@ -50,10 +50,10 @@ public class GptService {
         try {
             result = restTemplate.postForObject("https://cbjtestapi.binjie.site:7777/api/generateStream", entity, byte[].class);
         } catch (RestClientException e) {
-            return "\n很抱歉，小浪好像出了点小问题。";
+            return "抱歉噢，小浪好像出了点小问题。";
         }
         if (result == null) {
-            return "\n很抱歉，小浪好像出了点小问题。";
+            return "抱歉噢，小浪好像出了点小问题。";
         } else {
             return new String(result);
         }
