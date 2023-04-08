@@ -12,9 +12,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
@@ -50,14 +52,19 @@ public class RestTemplateConfig {
         factory.setHttpClient(httpClient);
         factory.setConnectTimeout(25000);
         factory.setReadTimeout(25000);
-
+//        RestTemplate restTemplate = new RestTemplate(
+//                new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory())
+//        );
+//        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//        restTemplate.setRequestFactory(factory);
         RestTemplate restTemplate = new RestTemplate(factory);
-
         // 设置默认请求头
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-        interceptors.add(new HeaderRequestInterceptor(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE));
+        interceptors.add(new HeaderRequestInterceptor(HttpHeaders.CONTENT_TYPE, MediaType.ALL_VALUE));
         interceptors.add(new HeaderRequestInterceptor(HttpHeaders.ACCEPT,MediaType.ALL_VALUE));
         restTemplate.setInterceptors(interceptors);
-        return new RestTemplate(factory);
+        return restTemplate;
     }
+
+
 }

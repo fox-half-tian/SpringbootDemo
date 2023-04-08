@@ -18,6 +18,7 @@ public class ReceiveTypeUtils {
         RECEIVE_TYPE_MAP.put("我的头像",new MyIconHandler());
         RECEIVE_TYPE_MAP.put("浪浪语录",new LangTalkHandler());
         RECEIVE_TYPE_MAP.put("蓄蓄语录",new XuTalkHandler());
+        RECEIVE_TYPE_MAP.put("清纯女孩",new GirlHandler());
         RECEIVE_TYPE_MAP.put("我的信息",new MyInfoHandler());
         RECEIVE_TYPE_MAP.put("你的信息",new BotInfoHandler());
         RECEIVE_TYPE_MAP.put("全员禁言",new BanAllHandler());
