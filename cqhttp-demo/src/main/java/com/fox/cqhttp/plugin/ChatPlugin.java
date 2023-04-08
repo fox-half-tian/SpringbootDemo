@@ -94,7 +94,7 @@ public class ChatPlugin extends BotPlugin {
             } else {
                 bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text("你想问小浪什么呢").face(20), false);
             }
-        } else if (str.length() > 3 && " 禁言".equals(str.substring(0, 3))) {
+        } else if (str.length() > 3 && "禁言".equals(str.toString().trim().substring(0, 2))) {
             if ("member".equals(event.getSender().getRole())) {
                 bot.sendGroupMsg(event.getGroupId(), Msg.builder().at(event.getUserId()).text("你当前没有权限禁言噢").face(20), false);
                 return MESSAGE_BLOCK;
