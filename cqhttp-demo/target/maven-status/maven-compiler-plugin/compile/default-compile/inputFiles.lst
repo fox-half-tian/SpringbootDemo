@@ -7,6 +7,7 @@ D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\co
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\constant\ReplyConstants.java
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\handle\LessonTableHandler.java
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\service\TxAnswerService.java
+D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\util\TimeFormatUtils.java
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\aop\MyAspect.java
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\handle\MyIconHandler.java
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\util\ReceiveTypeUtils.java
@@ -16,6 +17,7 @@ D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\co
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\constant\ImageConstants.java
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\handle\XuTalkHandler.java
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\service\GptService.java
+D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\handle\BotInfoHandler.java
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\handle\ReceiveBlankHandler.java
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\mytest\MyTest.java
 D:\SoftwareEngineering\java\exercise\SpringbootDemo\cqhttp-demo\src\main\java\com\fox\cqhttp\handle\LangTalkHandler.java

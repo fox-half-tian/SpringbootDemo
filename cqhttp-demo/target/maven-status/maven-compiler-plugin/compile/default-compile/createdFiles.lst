@@ -8,10 +8,12 @@ com\fox\cqhttp\service\TxAnswerService.class
 com\fox\cqhttp\plugin\LogPlugin.class
 com\fox\cqhttp\mytest\MyTest.class
 com\fox\cqhttp\service\GptService.class
+com\fox\cqhttp\util\TimeFormatUtils.class
 com\fox\cqhttp\config\TbpClientConfig.class
 com\fox\cqhttp\handle\MyIconHandler.class
 com\fox\cqhttp\interceptor\HeaderRequestInterceptor.class
 com\fox\cqhttp\constant\ReplyConstants.class
+com\fox\cqhttp\handle\BotInfoHandler.class
 com\fox\cqhttp\handle\ReceiveTypeHandler.class
 com\fox\cqhttp\interceptor\MyWsInterceptor.class
 com\fox\cqhttp\plugin\ChatPlugin.class
