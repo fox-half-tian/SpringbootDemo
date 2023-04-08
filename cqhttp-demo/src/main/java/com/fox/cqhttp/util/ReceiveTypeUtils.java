@@ -20,6 +20,9 @@ public class ReceiveTypeUtils {
         RECEIVE_TYPE_MAP.put("蓄蓄语录",new XuTalkHandler());
         RECEIVE_TYPE_MAP.put("我的信息",new MyInfoHandler());
         RECEIVE_TYPE_MAP.put("你的信息",new BotInfoHandler());
+        RECEIVE_TYPE_MAP.put("全员禁言",new BanAllHandler());
+        RECEIVE_TYPE_MAP.put("解禁",new LiftBanHandler());
+        RECEIVE_TYPE_MAP.put("全员解禁",new LiftBanAllHandler());
     }
     public static ReceiveTypeHandler get(String content){
         return RECEIVE_TYPE_MAP.get(StrUtil.removeAll(content,' '));

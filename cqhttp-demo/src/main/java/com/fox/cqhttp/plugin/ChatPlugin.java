@@ -1,10 +1,13 @@
 package com.fox.cqhttp.plugin;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.fox.cqhttp.handle.ReceiveTypeHandler;
 import com.fox.cqhttp.service.GptService;
 import com.fox.cqhttp.service.TxAnswerService;
 import com.fox.cqhttp.util.ReceiveTypeUtils;
+import jdk.nashorn.internal.runtime.FindProperty;
 import lombok.extern.slf4j.Slf4j;
 import net.lz1998.pbbot.bot.Bot;
 import net.lz1998.pbbot.bot.BotPlugin;
@@ -12,11 +15,14 @@ import net.lz1998.pbbot.utils.Msg;
 import onebot.OnebotBase;
 import onebot.OnebotEvent;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 import static com.fox.cqhttp.constant.ReplyConstants.*;
 
@@ -31,6 +37,8 @@ public class ChatPlugin extends BotPlugin {
     private TxAnswerService txAnswerService;
     @Resource
     private GptService gptService;
+    @Resource
+    private RestTemplate restTemplate;
 
     /**
      * 收到群消息时调用此方法
@@ -79,13 +87,66 @@ public class ChatPlugin extends BotPlugin {
             String question = str.substring(4, str.length());
             if (StringUtils.hasText(question)) {
                 String response = gptService.getResponse(question);
-                if (response.length() > 4 && ("很抱歉".equals(response.substring(0, 3))||"非常抱歉".equals(response.substring(0,4)))) {
+                if (response.length() > 4 && ("很抱歉".equals(response.substring(0, 3)) || "非常抱歉".equals(response.substring(0, 4)))) {
                     bot.sendPrivateMsg(event.getUserId(), Msg.builder().at(event.getUserId()).text("可以再问一次小浪吗，我刚刚走神了").face(9), false);
                 }
                 bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(response), false);
             } else {
                 bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text("你想问小浪什么呢").face(20), false);
             }
+        } else if (str.length() > 3 && " 禁言".equals(str.substring(0, 3))) {
+            if ("member".equals(event.getSender().getRole())) {
+                bot.sendGroupMsg(event.getGroupId(), Msg.builder().at(event.getUserId()).text("你当前没有权限禁言噢").face(20), false);
+                return MESSAGE_BLOCK;
+            }
+
+            // 解析时间
+            StringBuilder strTime = new StringBuilder();
+
+            int i;
+            for (i = 3; str.charAt(i) >= 48 && str.charAt(i) <= 57; i++) {
+                strTime.append(str.charAt(i));
+            }
+
+            if ("".equals(strTime.toString())) {
+                bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(txAnswerService.getResponse(str.toString())), false);
+                return MESSAGE_BLOCK;
+            }
+
+            String unit = str.substring(i).trim();
+            if ("秒".equals(unit)) {
+                // 获取所有非自己的at名单
+                for (OnebotBase.Message message : messageList) {
+                    if ("at".equals(message.getType())
+                            && !(bot.getSelfId() + "").equals(message.getDataOrThrow("qq"))) {
+                        int time = Integer.parseInt(strTime.toString());
+                        if (time < 60) {
+                            bot.sendGroupMsg(event.getGroupId(), Msg.builder().at(event.getUserId()).text("最少禁言一分钟噢，小浪替你把").at(Long.parseLong(message.getDataOrThrow("qq"))).text("禁言1分钟").face(16), false);
+                        }
+                        bot.setGroupBan(event.getGroupId(), Long.parseLong(message.getDataOrThrow("qq")), time);
+                    }
+                }
+            } else if ("分钟".equals(unit)) {
+                // 获取所有非自己的at名单
+                for (OnebotBase.Message message : messageList) {
+                    if ("at".equals(message.getType())
+                            && !(bot.getSelfId() + "").equals(message.getDataOrThrow("qq"))) {
+                        bot.setGroupBan(event.getGroupId(), Long.parseLong(message.getDataOrThrow("qq")), Integer.parseInt(strTime.toString()) * 60);
+                    }
+                }
+            } else if ("小时".equals(unit)) {
+                // 获取所有非自己的at名单
+                for (OnebotBase.Message message : messageList) {
+                    if ("at".equals(message.getType())
+                            && !(bot.getSelfId() + "").equals(message.getDataOrThrow("qq"))) {
+                        bot.setGroupBan(event.getGroupId(), Long.parseLong(message.getDataOrThrow("qq")), Integer.parseInt(strTime.toString()) * 60 * 60);
+                    }
+                }
+            } else {
+                bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(txAnswerService.getResponse(str.toString())), false);
+                return MESSAGE_BLOCK;
+            }
+
         }
 //        else if (str.length() > 4 && " 授予头衔".equals(str.substring(0, 5))) {
 //            String role = event.getSender().getRole();
@@ -164,6 +225,13 @@ public class ChatPlugin extends BotPlugin {
         return MESSAGE_BLOCK;
     }
 
+    /**
+     * 发送私聊消息
+     *
+     * @param bot   机器人
+     * @param event 事件
+     * @return 是否继续下一个插件
+     */
     @Override
     public int onPrivateMessage(@NotNull Bot bot, @NotNull OnebotEvent.PrivateMessageEvent event) {
         List<OnebotBase.Message> messageList = event.getMessageList();
@@ -185,7 +253,7 @@ public class ChatPlugin extends BotPlugin {
             String question = str.substring(2);
             if (StringUtils.hasText(question)) {
                 String response = gptService.getResponse(question);
-                if (response.length() > 4 && ("很抱歉".equals(response.substring(0, 3))||"非常抱歉".equals(response.substring(0,4)))) {
+                if (response.length() > 4 && ("很抱歉".equals(response.substring(0, 3)) || "非常抱歉".equals(response.substring(0, 4)))) {
                     bot.sendPrivateMsg(event.getUserId(), Msg.builder().text("可以再问一次小浪吗，我刚刚走神了").face(9), false);
                 } else {
                     bot.sendPrivateMsg(event.getUserId(), Msg.builder().text(response), false);
@@ -200,5 +268,63 @@ public class ChatPlugin extends BotPlugin {
         }
         return MESSAGE_BLOCK;
 
+    }
+
+
+    /**
+     * 加好友请求时调用此方法(还没加，请求是否通过)
+     *
+     * @param bot   机器人
+     * @param event 事件
+     * @return 是否继续下一个插件
+     */
+    @Override
+    public int onFriendRequest(@NotNull Bot bot, @NotNull OnebotEvent.FriendRequestEvent event) {
+        ResponseEntity<String> forEntity = restTemplate.getForEntity("https://www.youwk.cn/api/qq/q_zl?key=yvyRGvZr3QUFEIb3gGkKxf0CEev3AI&qq=" + event.getUserId(), String.class);
+        JSONObject jsonObject = JSONUtil.parseObj(forEntity.getBody());
+        JSONObject queryInfo = JSONUtil.parseObj(jsonObject.getStr("data"));
+        String name;
+        if ("200".equals(jsonObject.getStr("code"))) {
+            name = queryInfo.getStr("name");
+        } else {
+            name = "朋友" + System.currentTimeMillis();
+        }
+        bot.setFriendAddRequest(event.getFlag(), true, name);
+        return MESSAGE_BLOCK;
+    }
+
+    /**
+     * 对添加了好友的处理
+     *
+     * @param bot   机器人
+     * @param event 事件
+     * @return 是否继续下一个插件
+     */
+    @Override
+    public int onFriendAddNotice(@NotNull Bot bot, @NotNull OnebotEvent.FriendAddNoticeEvent event) {
+        bot.sendPrivateMsg(event.getUserId(), Msg.builder()
+                .text("hello，很高兴认识你，我是你的机器人助手小浪").face(172), false);
+        return MESSAGE_BLOCK;
+    }
+
+    /**
+     * 加群请求/邀请时调用此方法(还没加，请求是否通过)
+     *
+     * @param bot   机器人
+     * @param event 事件
+     * @return 是否继续下一个插件
+     */
+    @Override
+    public int onGroupRequest(@NotNull Bot bot, @NotNull OnebotEvent.GroupRequestEvent event) {
+        System.out.println(event.getComment());
+        System.out.println(event.getRequestType());
+        System.out.println(event.getSubType());
+        System.out.println(event.getFlag());
+        Map<String, String> extraMap = event.getExtraMap();
+        for (String s : extraMap.keySet()) {
+            System.out.println(s + "：" + extraMap.get(s));
+        }
+
+        return MESSAGE_BLOCK;
     }
 }

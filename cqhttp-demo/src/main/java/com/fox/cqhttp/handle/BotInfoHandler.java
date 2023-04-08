@@ -33,7 +33,7 @@ public class BotInfoHandler implements ReceiveTypeHandler {
                 .text("我是你的机器人助理小浪")
                 .text("\n开发者：狐狸半面添")
                 .text("\n最近上线时间：" + UP_TIME)
-                .text("\n当前版本：0.0.1-beta"), false);
+                .text("\n当前版本：0.0.2-beta"), false);
     }
 
 }
