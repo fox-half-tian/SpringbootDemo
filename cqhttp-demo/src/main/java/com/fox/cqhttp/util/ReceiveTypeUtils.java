@@ -19,6 +19,7 @@ public class ReceiveTypeUtils {
         RECEIVE_TYPE_MAP.put("浪浪语录",new LangTalkHandler());
         RECEIVE_TYPE_MAP.put("蓄蓄语录",new XuTalkHandler());
         RECEIVE_TYPE_MAP.put("我的信息",new MyInfoHandler());
+        RECEIVE_TYPE_MAP.put("你的信息",new BotInfoHandler());
     }
     public static ReceiveTypeHandler get(String content){
         return RECEIVE_TYPE_MAP.get(StrUtil.removeAll(content,' '));

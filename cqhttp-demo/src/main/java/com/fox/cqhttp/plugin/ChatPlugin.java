@@ -52,12 +52,10 @@ public class ChatPlugin extends BotPlugin {
             if ("at".equals(message.getType())
                     && (bot.getSelfId() + "").equals(message.getDataOrThrow("qq"))) {
                 notHandle = false;
-                str = new StringBuilder();
                 for (OnebotBase.Message againMsg : messageList) {
                     if ("text".equals(againMsg.getType())) {
-                        String text = againMsg.getDataOrThrow("text");
-//                        if (text.contains())
-                        str.append(againMsg.getDataOrThrow(text)).append(" ");
+//                        String text = againMsg.getDataOrThrow("text");
+                        str.append(againMsg.getDataOrThrow("text")).append(" ");
                     }
                 }
                 break;
@@ -81,7 +79,7 @@ public class ChatPlugin extends BotPlugin {
             String question = str.substring(4, str.length());
             if (StringUtils.hasText(question)) {
                 String response = gptService.getResponse(question);
-                if (response.length() > 6 && "很抱歉地告诉您".equals(response.substring(0, 7))) {
+                if (response.length() > 4 && ("很抱歉".equals(response.substring(0, 3))||"非常抱歉".equals(response.substring(0,4)))) {
                     bot.sendPrivateMsg(event.getUserId(), Msg.builder().at(event.getUserId()).text("可以再问一次小浪吗，我刚刚走神了").face(9), false);
                 }
                 bot.sendGroupMsg(groupId, Msg.builder().at(event.getUserId()).text(response), false);
@@ -187,7 +185,7 @@ public class ChatPlugin extends BotPlugin {
             String question = str.substring(2);
             if (StringUtils.hasText(question)) {
                 String response = gptService.getResponse(question);
-                if (response.length() > 6 && "很抱歉地告诉您".equals(response.substring(0, 7))) {
+                if (response.length() > 4 && ("很抱歉".equals(response.substring(0, 3))||"非常抱歉".equals(response.substring(0,4)))) {
                     bot.sendPrivateMsg(event.getUserId(), Msg.builder().text("可以再问一次小浪吗，我刚刚走神了").face(9), false);
                 } else {
                     bot.sendPrivateMsg(event.getUserId(), Msg.builder().text(response), false);

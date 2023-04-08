@@ -2,8 +2,8 @@ spring:
   bot:
     plugin-list: # 配置插件列表（有序），如果插件返回0，继续执行剩余插件，如果插件返回1，终止剩余插件执行
       - com.fox.cqhttp.plugin.LogPlugin # 日志插件
-#      - com.fox.cqhttp.plugin.DemoPlugin # 测试插件
-#      - com.fox.cqhttp.plugin.ImagePlugin # 动态生成图片插件
+      #      - com.fox.cqhttp.plugin.DemoPlugin # 测试插件
+      #      - com.fox.cqhttp.plugin.ImagePlugin # 动态生成图片插件
       - com.fox.cqhttp.plugin.ChatPlugin # 测试插件
 tbp:
   # 腾讯云账户 secretId
@@ -18,3 +18,15 @@ tbp:
   botEnv: release
 server:
   port: 8081
+# 异步线程配置
+async:
+  executor:
+    thread:
+      # 配置核心线程数
+
+      # 配置最大线程数
+
+      # 配置队列大小
+
+      # 配置线程池中的线程的名称前缀
+

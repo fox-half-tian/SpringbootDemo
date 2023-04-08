@@ -18,7 +18,7 @@ public class MyIconHandler implements ReceiveTypeHandler {
 
     @Override
     public void handlePrivate(Bot bot, OnebotEvent.PrivateMessageEvent event) {
-        bot.sendGroupMsg(event.getUserId(), Msg.builder().image("https://q2.qlogo.cn/headimg_dl?dst_uin=" + event.getUserId() + "@qq.com&spec=640"), false);
+        bot.sendPrivateMsg(event.getUserId(), Msg.builder().image("https://q2.qlogo.cn/headimg_dl?dst_uin=" + event.getUserId() + "@qq.com&spec=640"), false);
     }
 
 
