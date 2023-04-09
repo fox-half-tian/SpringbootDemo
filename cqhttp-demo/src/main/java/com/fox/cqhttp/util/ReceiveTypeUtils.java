@@ -18,7 +18,6 @@ public class ReceiveTypeUtils {
     static {
         RECEIVE_TYPE_MAP.put("我的课表", new LessonTableHandler());
         RECEIVE_TYPE_MAP.put("随机美腿", new LegHandler());
-//        RECEIVE_TYPE_MAP.put("", new ReceiveBlankHandler());
         RECEIVE_TYPE_MAP.put("我的头像", new MyIconHandler());
         RECEIVE_TYPE_MAP.put("浪浪语录", new LangTalkHandler());
         RECEIVE_TYPE_MAP.put("蓄蓄语录", new XuTalkHandler());
@@ -28,9 +27,9 @@ public class ReceiveTypeUtils {
         RECEIVE_TYPE_MAP.put("全员禁言", new BanAllHandler());
         RECEIVE_TYPE_MAP.put("解禁成员", new LiftBanHandler());
         RECEIVE_TYPE_MAP.put("全员解禁", new LiftBanAllHandler());
-        RECEIVE_TYPE_MAP.put("播放歌曲", new MusicHandler());
         RECEIVE_TYPE_MAP.put("舔狗日记", new DogHandler());
         RECEIVE_TYPE_MAP.put("看看姐姐", new BeautyVlogHandler());
+        RECEIVE_TYPE_MAP.put("次元女孩", new AnimeHandler());
     }
 
     public static ReceiveTypeHandler get(String content) {
