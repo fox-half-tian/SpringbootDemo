@@ -2,6 +2,7 @@ package com.fox.cqhttp.service;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import net.lz1998.pbbot.bot.Bot;
 import net.lz1998.pbbot.utils.Msg;
 import onebot.OnebotEvent;
@@ -24,6 +25,7 @@ import java.util.HashMap;
  * @create 2023-04-07 12:58
  */
 @Service
+@Slf4j
 public class GptService {
     private final RestTemplate restTemplate = SpringUtil.getBean(RestTemplate.class);
 
@@ -51,9 +53,11 @@ public class GptService {
         try {
             result = restTemplate.postForObject("https://cbjtestapi.binjie.site:7777/api/generateStream", entity, byte[].class);
         } catch (RestClientException e) {
+            log.error("openai机器人调用出错：{}",e.getMessage());
             return "抱歉噢，小浪好像出了点小问题。";
         }
         if (result == null) {
+            log.error("openai机器人调用出错：结果为空");
             return "抱歉噢，小浪好像出了点小问题。";
         } else {
             return new String(result);

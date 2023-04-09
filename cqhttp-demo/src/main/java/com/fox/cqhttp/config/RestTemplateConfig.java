@@ -60,7 +60,7 @@ public class RestTemplateConfig {
         RestTemplate restTemplate = new RestTemplate(factory);
         // 设置默认请求头
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-        interceptors.add(new HeaderRequestInterceptor(HttpHeaders.CONTENT_TYPE, MediaType.ALL_VALUE));
+        interceptors.add(new HeaderRequestInterceptor(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE));
         interceptors.add(new HeaderRequestInterceptor(HttpHeaders.ACCEPT,MediaType.ALL_VALUE));
         restTemplate.setInterceptors(interceptors);
         return restTemplate;
