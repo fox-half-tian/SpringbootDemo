@@ -8,7 +8,6 @@
         <option value="$PROJECT_DIR$/elasticsearch-demo/pom.xml" />
         <option value="$PROJECT_DIR$/elasticsearch-canal-demo/pom.xml" />
         <option value="$PROJECT_DIR$/sms-demo/pom.xml" />
-        <option value="$PROJECT_DIR$/qqrobot-demo/pom.xml" />
         <option value="$PROJECT_DIR$/cqhttp-demo/pom.xml" />
       </list>
     </option>

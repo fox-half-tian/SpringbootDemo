@@ -7,13 +7,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="minio-chunk-demo" />
-        <module name="qqrobot-demo" />
         <module name="elasticsearch-demo" />
         <module name="sms-demo" />
         <module name="elasticsearch-canal-demo" />
         <module name="cqhttp-demo" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="qqrobot-demo" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
