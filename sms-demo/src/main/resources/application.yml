@@ -15,9 +15,9 @@ spring:
 sms:
   ali:
     # 子用户的访问键
-    accessKeyId: LTAI5tFhzvktt9U5j4ak2637
+    accessKeyId: LTAI5tFhzvktt9U5j4ak****
     # 子用户的访问密钥
-    accessKeySecret: hYLiytNltwB1pOetnBiNcXPmXqfvkx
+    accessKeySecret: hYLiytNltwB1pOetnBiNcXPmXq****
     # 签名名称
     signName: 逐浪教育
     # 登录短信模板的code
