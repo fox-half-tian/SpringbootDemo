@@ -51,7 +51,7 @@ public class GptService {
         HttpEntity<JSONObject> entity = new HttpEntity<>(new com.alibaba.fastjson.JSONObject(map), headers);
         byte[] result;
         try {
-            result = restTemplate.postForObject("https://cbjtestapi.binjie.site:7777/api/generateStream", entity, byte[].class);
+            result = restTemplate.postForObject("https://api.aichatos.cloud/api/generateStream", entity, byte[].class);
         } catch (RestClientException e) {
             log.error("openai机器人调用出错：{}",e.getMessage());
             return "抱歉噢，小浪好像出了点小问题。";
