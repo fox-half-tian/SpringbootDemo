@@ -11,3 +11,5 @@
 5.qrcode-demo 模块是二维码服务，对应文章：[Java生成二维码（前后端分离项目实战）](https://blog.csdn.net/qq_62982856/article/details/132572246)
 
 6.xfxh-web-simple-demo 模块是讯飞星火大模型后端接口服务，对应文章：[]()
+
+7.xfxh-web-support-context 模块是讯飞星火大模型后端接口增强服务，在 xfxh-web-simple-demo 模块接口基础上支持了基于上下文的问题回答
