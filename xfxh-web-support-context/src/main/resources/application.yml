@@ -8,11 +8,11 @@ xfxh:
   # 模型回答的tokens的最大长度，V1.5取值为[1,4096]，V2.0取值为[1,8192]。
   maxTokens: 2048
   # 用于权限验证，从服务接口认证信息中获取
-  appId: 4f5281bc
+  appId:
   # 用于权限验证，从服务接口认证信息中获取
-  apiKey: 5fdfcf9527287aa8aa5288127543dc6f
+  apiKey:
   # 用于权限验证，从服务接口认证信息中获取
-  apiSecret: NzA0OTVlYWM5YmI0YzJjNjYyYmEyMjJm
+  apiSecret:
   # 每个 id 用户能保存的最大交互记录数，需要注意所有累计tokens需控制8192以内
   maxInteractCount: 3
   # 内存中能够保存的最大用户数量
