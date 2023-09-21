@@ -8,13 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="minio-chunk-demo" />
         <module name="qrcode-demo" />
+        <module name="xfxh-web-simple-demo" />
         <module name="elasticsearch-demo" />
         <module name="sms-demo" />
         <module name="elasticsearch-canal-demo" />
-        <module name="cqhttp-demo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="cqhttp-demo" target="1.8" />
       <module name="qqrobot-demo" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -22,6 +23,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cqhttp-demo" options="-parameters" />
       <module name="qrcode-demo" options="-parameters" />
+      <module name="xfxh-web-simple-demo" options="-parameters" />
     </option>
   </component>
 </project>
