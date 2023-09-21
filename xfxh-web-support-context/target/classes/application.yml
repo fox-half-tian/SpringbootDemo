@@ -1,0 +1,28 @@
+xfxh:
+  # 服务引擎使用 讯飞星火认知大模型V2.0，如果使用 V1.5 需要将 hostUrl 修改为 https://spark-api.xf-yun.com/v1.1/chat
+  hostUrl: https://spark-api.xf-yun.com/v2.1/chat
+  # 发送请求时指定的访问领域，如果是 V1.5版本 设置为 general，如果是 V2版本 设置为 generalv2
+  domain: generalv2
+  # 核采样阈值。用于决定结果随机性，取值越高随机性越强即相同的问题得到的不同答案的可能性越高。取值 [0,1]
+  temperature: 0.5
+  # 模型回答的tokens的最大长度，V1.5取值为[1,4096]，V2.0取值为[1,8192]。
+  maxTokens: 2048
+  # 用于权限验证，从服务接口认证信息中获取
+  appId: 4f5281bc
+  # 用于权限验证，从服务接口认证信息中获取
+  apiKey: 5fdfcf9527287aa8aa5288127543dc6f
+  # 用于权限验证，从服务接口认证信息中获取
+  apiSecret: NzA0OTVlYWM5YmI0YzJjNjYyYmEyMjJm
+  # 每个 id 用户能保存的最大交互记录数，需要注意所有累计tokens需控制8192以内
+  maxInteractCount: 3
+  # 内存中能够保存的最大用户数量
+  maxUserCount: 15
+  # 用户记录最大状态为 6，状态超过 userRecordMaxStatus 会从记录空间中移除该用户
+  userRecordMaxStatus: 6
+  # 大模型回复问题的最大响应时长，单位 s
+  maxResponseTime: 40
+  # 允许同时连接大模型的 websocket 数，如果是普通（免费）用户为 2，超过这个数连接响应会报错，具体参考官网。
+  QPS: 2
+  scheduled:
+    # 单位 ms，600000 表示每隔十分钟用户记录状态+1，直到状态超过 userRecordMaxStatus 会从记录空间中移除该用户
+    updateUserStatusFixedDelay: 600000

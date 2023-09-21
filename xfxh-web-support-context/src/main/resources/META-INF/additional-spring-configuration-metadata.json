@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "xfxh.hostUrl",
+      "type": "java.lang.String",
+      "description": "Description for xfxh.hostUrl."
+  }
+] }

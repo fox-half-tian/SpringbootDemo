@@ -1,0 +1,23 @@
+{
+  "header": {
+    "app_id": "12345",
+    "uid": "12345"
+  },
+  "parameter": {
+    "chat": {
+      "domain": "general",
+      "temperature": 0.5,
+      "max_tokens": 1024
+    }
+  },
+  "payload": {
+    "message": {
+      "text": [
+        {
+          "role": "user",
+          "content": "你是谁"
+        }
+      ]
+    }
+  }
+}

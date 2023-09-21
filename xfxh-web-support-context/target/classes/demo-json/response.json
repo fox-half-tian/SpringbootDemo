@@ -1,0 +1,31 @@
+// 接口为流式返回，此示例为最后一次返回结果，开发者需要将接口多次返回的结果进行拼接展示
+
+{
+  "header": {
+    "code": 0,
+    "message": "Success",
+    "sid": "cht000cb087@dx18793cd421fb894542",
+    "status": 2
+  },
+  "payload": {
+    "choices": {
+      "status": 1,
+      "seq": 0,
+      "text": [
+        {
+          "content": "我有什么可",
+          "role": "assistant",
+          "index": 0
+        }
+      ]
+    },
+    "usage": {
+      "text": {
+        "question_tokens": 4,
+        "prompt_tokens": 5,
+        "completion_tokens": 9,
+        "total_tokens": 14
+      }
+    }
+  }
+}

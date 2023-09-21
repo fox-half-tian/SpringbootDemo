@@ -1,0 +1,60 @@
+{
+  "groups": [
+    {
+      "name": "xfxh",
+      "type": "com.zhulang.xfxhsimple.config.XfXhConfig",
+      "sourceType": "com.zhulang.xfxhsimple.config.XfXhConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "xfxh.api-key",
+      "type": "java.lang.String",
+      "description": "用于权限验证，从服务接口认证信息中获取",
+      "sourceType": "com.zhulang.xfxhsimple.config.XfXhConfig"
+    },
+    {
+      "name": "xfxh.api-secret",
+      "type": "java.lang.String",
+      "description": "用于权限验证，从服务接口认证信息中获取",
+      "sourceType": "com.zhulang.xfxhsimple.config.XfXhConfig"
+    },
+    {
+      "name": "xfxh.app-id",
+      "type": "java.lang.String",
+      "description": "用于权限验证，从服务接口认证信息中获取",
+      "sourceType": "com.zhulang.xfxhsimple.config.XfXhConfig"
+    },
+    {
+      "name": "xfxh.domain",
+      "type": "java.lang.String",
+      "description": "发送请求时指定的访问领域，如果是 V1.5版本 设置为 general，如果是 V2版本 设置为 generalv2",
+      "sourceType": "com.zhulang.xfxhsimple.config.XfXhConfig"
+    },
+    {
+      "name": "xfxh.host-url",
+      "type": "java.lang.String",
+      "description": "服务引擎使用 讯飞星火认知大模型V2.0，如果使用 V1.5 需要将 hostUrl 修改为 https:\/\/spark-api.xf-yun.com\/v1.1\/chat",
+      "sourceType": "com.zhulang.xfxhsimple.config.XfXhConfig"
+    },
+    {
+      "name": "xfxh.max-response-time",
+      "type": "java.lang.Integer",
+      "description": "大模型回复问题的最大响应时长，单位 s",
+      "sourceType": "com.zhulang.xfxhsimple.config.XfXhConfig"
+    },
+    {
+      "name": "xfxh.max-tokens",
+      "type": "java.lang.Integer",
+      "description": "模型回答的tokens的最大长度，V1.5取值为[1,4096]，V2.0取值为[1,8192]。",
+      "sourceType": "com.zhulang.xfxhsimple.config.XfXhConfig"
+    },
+    {
+      "name": "xfxh.temperature",
+      "type": "java.lang.Float",
+      "description": "核采样阈值。用于决定结果随机性，取值越高随机性越强即相同的问题得到的不同答案的可能性越高。取值 [0,1]",
+      "sourceType": "com.zhulang.xfxhsimple.config.XfXhConfig"
+    }
+  ],
+  "hints": []
+}
