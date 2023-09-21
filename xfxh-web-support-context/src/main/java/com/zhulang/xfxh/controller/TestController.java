@@ -64,6 +64,8 @@ public class TestController {
         if (webSocket == null) {
             // 归还令牌
             xfXhStreamClient.operateToken(XfXhStreamClient.BACK_TOKEN_STATUS);
+            // 释放锁
+            memoryUserRecordSpace.unLock(id);
             return "系统内部错误，请联系管理员";
         }
         try {
