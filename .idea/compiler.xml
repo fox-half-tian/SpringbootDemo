@@ -9,6 +9,7 @@
         <module name="minio-chunk-demo" />
         <module name="qrcode-demo" />
         <module name="elasticsearch-demo" />
+        <module name="xfxh-web-simple" />
         <module name="sms-demo" />
         <module name="elasticsearch-canal-demo" />
         <module name="xfxh-web-simple-demo" />
@@ -24,6 +25,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cqhttp-demo" options="-parameters" />
       <module name="qrcode-demo" options="-parameters" />
+      <module name="xfxh-web-simple" options="-parameters" />
       <module name="xfxh-web-simple-demo" options="-parameters" />
       <module name="xfxh-web-support-context" options="-parameters" />
     </option>
